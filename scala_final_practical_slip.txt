@@ -1,0 +1,702 @@
+________________________________________________________________________________________________________________________________________________________________________________________________________
+1) Write a program to read two strings. Find the occurrence of second
+string in the first string. Reverse the case of each occurrence in the
+string and display resultant string.
+
+object Main {
+  def main(args: Array[String]): Unit = {
+      println("Enter the first string: ")
+      var first_string = scala.io.StdIn.readLine()
+      println("Enter the second String: ")
+      var second_string = scala.io.StdIn.readLine()
+      val index = first_string.indexOf(second_string)
+      if (index == -1){
+          println("The second string was not found in the first string.")
+      }
+      else{
+          val reverse = first_string.substring(0, index) + second_string.map(c=> if (c.isLower) c.toUpper else c.toLower) + first_string.substring(index + second_string.length)
+          println(s"The reversed case string is: $reverse")
+      }
+  }
+}2. Model the following Dairy Brand information as a graph model ,and answer the following queries using Cypher.There are various dairy brands like Amul, Go, Britannia, Gokuletc. Their popularity varies across different states in India. Thepopularity is measured as %, with a high popularity defined as>=90%, Medium Popularity between 50 to 90%, and Lowpopularity <50%create(b:Brands{name:"Gokul",popularity:"95%"})return b;create(b:Brands{name:"Amul",popularity:"75%"})return b;create(b:Brands{name:"Britannia",popularity:"45%"})return b;create(p:Products{name:"Cheese"})return p;create(p:Products{name:"Curd"})return p;create(p:Products{name:"Milk"})return p;create(p:Products{name:"Butter"})return p;create(c:Category{name:"Low Fat"})return c;create(c:Category{name:"High Fat"})return c;create(c:Category{name:"Medium Fat"})return c;match (b:Brands),(p:Products) where b.name="Amul" and p.name="Cheese" create (b)-[:has_product]->(p) return b,p;match (b:Brands),(p:Products) where b.name="Gokul" and p.name="Milk" create (b)-[:has_product]->(p) return b,p;match (c:Category),(p:Products) where p.name="Curd" and c.name="Medium Fat" create (p)-[:has_category]->(c) return p,c;match (c:Category),(p:Products) where p.name="Milk" and c.name="Low Fat" create (p)-[:has_category]->(c) return p,c;match (c:Category),(p:Products) where p.name="Cheese" and c.name="High Fat" create (p)-[:has_category]->(c) return p,c;1.match (b:Brands) return *;2.MATCH (b:Brands) where b.popularity>="90%" return b.name;3.MATCH (b:Brands),(p:Products) where p.name="Cheese" and b.popularity>="30%" return b.name;4.MATCH (b:Brands),(c:Category),(p:Products) where c.name="Low Fat" and (b)-[:has_product]->(p)-[:has_category]->(c)  return b.name;
+
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+2) A. Write a program to read five random numbers and convert it
+to binary and octal using user defined functions.
+(random number : 5M binary : 5M Octal : 5M)
+B. Write a program to calculate average of all prime numbers
+between n1 and n2 (take n1 and n2 from user).
+
+A)-->
+object Main {
+  def toBinary(num:Int){
+          var i = 0
+          var n:Int = num
+          var A = new Array[Int](10)
+          while(n>0){
+              A(i) = n%2
+              i += 1
+              n = n/2
+          }
+          println("Binary Number: ")
+          for(j<-i-1 to 0 by - 1){
+              print(A(j))
+          }
+          
+      }
+    def toOctal(num:Int){
+        var i = 0
+        var n:Int = num
+        var A = new Array[Int](10)
+        while(n>0){
+            A(i) = n%8
+            i += 1
+            n /= 8
+        }
+        println("Octal number: ")
+        for(j<-i-1 to 0 by -1){
+            print(A(j))
+        }
+        
+    }
+  def main(args: Array[String]): Unit = {
+      
+      print("enter the first number: ")
+      var num1:Int = scala.io.StdIn.readInt()
+      print("enter the second number: ")
+      var num2 = scala.io.StdIn.readInt()
+      print("enter the third number: ")
+      var num3 = scala.io.StdIn.readInt()
+      print("enter the fourth number: ")
+      var num4 = scala.io.StdIn.readInt()
+      print("enter the fiveth number: ")
+      var num5 = scala.io.StdIn.readInt()
+      print(num1,num2,num3,num4,num5)
+      toBinary(num1)
+      toOctal(num1)
+      toBinary(num2)
+      toOctal(num2)
+      toBinary(num3)
+      toOctal(num3)
+      toBinary(num4)
+      toOctal(num4)
+      toBinary(num5)
+      toOctal(num5)
+  }
+}
+B)-->
+object Main{
+    def isPrime(num:Int): Boolean = {
+        if(num<=1){
+            false
+        }
+        else if(num==2){
+            true
+        }
+        else{
+            !(2 to (num-1)).exists(x=>num%x==0)
+        }
+    }
+    def calculate_average(n1:Int, n2:Int){
+        var sum = 0
+        var average = 0
+        var count = 0
+        for(i<-n1 to n2){
+            if(isPrime(i)){
+                sum += i
+                count += 1
+            }
+        }
+        average = sum/count
+        println(s"average: $average")
+    }
+    def main(args:Array[String]){
+        print("Enter the first number: ")
+        var num1 = scala.io.StdIn.readInt()
+        print("Enter the second number: ")
+        var num2 = scala.io.StdIn.readInt()
+        calculate_average(num1,num2)
+    }
+}
+2. Model the following Import Export information as a graph model, and answer the following queries using Cypher. There are countries which import and export products to each other. Products are produced across different states in a country. Production of the products is measured in %. A product can be exported if its production exceeds 60%. A product needs to be imported if its consumption percentage is more than its production percentage in a country.create (c:Country{name:"India"}) return c;create (c:Country{name:"USA"}) return c;create (c:Country{name:"Israil"}) return c;create (c:Country{name:"Arab"}) return c;create (c:Country{name:"Europe"}) return c;create (s:States{name:"Maharashtra"}) return s;create (s:States{name:"Punjab"}) return s;create (s:States{name:"California"}) return s;create (p:Product{name:"Wheat",production:"75%"}) return p;create (p:Product{name:"Oil",production:"90%"}) return p;create (p:Product{name:"Sugar",production:"50%"}) return p;create (p:Product{name:"GroundNuts",production:"50%"}) return p;create (p:Product{name:"Cotton",production:"50%"}) return p;match (c:Country),(s:States),(p:Product) where c.name="India" and s.name="Maharashtra" and p.name="Wheat" create (c)-[:has_States]->(s)-[:Produces]->(p) return c,s,p;match (c:Country),(s:States),(p:Product) where c.name="USA" and s.name="California" andp.name="Oil" create (c)-[:has_States]->(s)-[:Produces]->(p) return c,s,p;match (c:Country),(s:States),(p:Product) where c.name="India" and s.name="Maharashtra" and p.name="Oil" create (c)-[:has_States]->(s)-[:Produces]->(p) return c,s,p;match (c:Country),(s:States),(p:Product) where c.name="India" and s.name="Maharashtra" and p.name="GroundNuts" create (c)-[:has_States]->(s)-[:Produces]->(p) return c,s,p;match (c:Country),(s:States),(p:Product) where c.name="India" and s.name="Punjab" andp.name="Sugar" create (c)-[:has_States]->(s)-[:Produces]->(p) return c,s,p;1.match (c:Country),(p:Product),(s:States) where p.name="Oil" and (c)-[:has_States]->(s)-[:Produces]->(p) return c.name;2.match (s:States),(p:Product) where s.name="Maharashtra" and (s)-[:Produces]->(p) return p.name;3.match (c:Country),(p:Product),(s:States) where p.production>="50%" and p.name="Sugar" and (c)-[:has_States]->(s)-[:Produces]->(p) return c.name;4.
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+3) Write a program to calculate sum of all perfect numbers between 1 and
+100. Display perfect numbers also.
+(find Perfect number : 10 M sum : 10M display numbers and sum: 10M)
+
+object Main{
+    def perfect_num(n:Int): Boolean ={
+        var num = n
+        var sum = 0
+        for(i<-1 until n){
+            if(num%i==0){
+                sum += i
+            }
+        }
+        if(sum==n){
+            true
+        }
+        else{
+            false
+        }
+    }
+    def main(args:Array[String]){
+        var perfect_num_sum:Int = 0
+        for(i<-1 to 100){
+            if(perfect_num(i)){
+                println(s"Perfect Number: $i")
+                perfect_num_sum += i
+            }
+        }
+        println(s"Sum of the perfect number between 1 to 100: $perfect_num_sum")
+    }
+}
+
+2. create (d:Doctor {name:"Rohit",type:"own clinic",area:"Camp Area"}) return d;create (d:Doctor {name:"Manoj",type:"own clinic",area:"Kothrud"}) return d;create (d:Doctor {name:"Dr. Kulkarni",type:"visit",area:"Bavdhan"}) return d;create (s:Specialization {name:"Pediatric"}) return s;create (s:Specialization {name:"Gynaec"}) return s;create (s:Specialization {name:"Heart Specialist"}) return s;create (s:Specialization {name:"Cancer Specialist"}) return s;create (p:Person {name:"Ashish",review:"5 star"}) return p;create (p:Person {name:"Tanvi",review:"3 star"}) return p;create (p:Person {name:"Nikhil",review:"4 star"}) return p;create (p:Person {name:"Renuka",review:"4 star"}) return p;match(d:Doctor),(s:Specialization) where d.name="Rohit" and s.name="Pediatric" create (d)-[:has_Specialization]->(s) return d,s;match(d:Doctor),(s:Specialization) where d.name="Manoj" and s.name="Gynaec" create (d)-[:has_Specialization]->(s) return d,s;match(d:Doctor),(s:Specialization) where d.name="Dr. Kulkarni" and s.name="Heart Specialist" create (d)-[:has_Specialization]->(s) return d,s;match(d:Doctor),(s:Specialization) where d.name="Dr. Kulkarni" and s.name="Cancer Specialist" create (d)-[:has_Specialization]->(s) return d,s;match(d:Doctor),(p:Person) where d.name="Dr. Kulkarni" and p.name="Ashish" create (d)-[:has_review]->(p) return d,p;match(d:Doctor),(p:Person) where d.name="Dr. Kulkarni" and p.name="Tanvi" create (d)-[:has_review]->(p) return d,p;match(d:Doctor),(p:Person) where d.name="Rohit" and p.name="Renuka" create (d)-[:has_review]->(p) return d,p;match(d:Doctor),(p:Person) where d.name="Manoj" and p.name="Nikhil" create (d)-[:has_review]->(p) return d,p;1.match(d:Doctor),(s:Specialization) where d.area="Camp Area" and s.name="Pediatric" and (d)-[:has_Specialization]->(s) return d.name;2.match(d:Doctor) where d.type="own clinic" return d.name;3.match(d:Doctor),(s:Specialization) where d.area="Kothrud" and s.name="Gynaec" and (d)-[:has_Specialization]->(s) return d.name;4.match(d:Doctor),(p:Person) where d.name="Dr. Kulkarni" and (d)-[:has_review]->(p) return p.review;
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+4) Write a program to read a character and a string from user and remove
+first and last occurrence of the character from the string. Display
+resultant string after reversing its case.
+
+object Main{
+    def reverseCase(s: String): String = {
+        var result = ""
+        for (c <- s) {
+            if (c.isUpper)
+            {
+                result += c.toLower
+            } 
+            else 
+            {
+                result += c.toUpper
+            }  
+        }
+        result
+    }
+    def main(args:Array[String]){
+        print("Enter a character: ")
+        val c = scala.io.StdIn.readChar()
+        print("Enter a string: ")
+        val s = scala.io.StdIn.readLine()
+
+        val s1 = s.replaceFirst(c.toString, "")
+        val s2 = s1.reverse.replaceFirst(c.toString, "").reverse
+        println(reverseCase(s2))
+    }
+}
+create (u:University{department:"Maths"})return u; create (u:University{department:"Geology"})return u; create (u:University{department:"Chemistry"})return u; create (c:Courses{name:"Personality Development"})return c; create (c:Courses{name:"Social Work"})return c; create (c:Courses{name:"Human Services"})return c; create (p:Person{name:"Rohit",rating:"4"}) return p;create (p:Person{name:"Manoj",rating:"5"}) return p;create (p:Person{name:"Om", rating:"3"}) return p;create (p:Person{name:"Shubham",rating:"2"}) return p;match(u:University),(c:Courses) where u.department="Maths" and c.name="Personality Development" create (u)-[:has_course]->(c) return u,c;match(u:University),(c:Courses) where u.department="Maths" and c.name="Social Work" create (u)-[:has_course]->(c) return u,c;match(u:University),(c:Courses) where u.department="Geology" and c.name="Social Work" create (u)-[:has_course]->(c) return u,c;match(u:University),(c:Courses) where u.department="Geology" and c.name="Human Services" create (u)-[:has_course]->(c) return u,c;match(u:University),(c:Courses) where u.department="Chemistry" and c.name="Human Services" create (u)-[:has_course]->(c) return u,c;match(u:University),(c:Courses) where u.department="Chemistry" and c.name="Social Work" create (u)-[:has_course]->(c) return u,c;match(p:Person),(c:Courses) where p.name="Rohit" and c.name="Social Work" create (c)-[:reviewd_by]->(p) return p,c;match(p:Person),(c:Courses) where p.name="Manoj" and c.name="Social Work" create (c)-[:reviewd_by]->(p) return p,c;match(p:Person),(c:Courses) where p.name="Shubham" and c.name="Personality Development" create (c)-[:reviewd_by]->(p) return p,c;match(p:Person),(c:Courses) where p.name="Om" and c.name="Human Services" create (c)-[:reviewd_by]->(p) return p,c;1.match (u:University),(c:Courses) where u.department="Chemistry" and (u)-[:has_course]->(c) return c.name;2.match(n) return *;3.4.match (u:University),(c:Courses),(p:Person) where p.rating="5" and u.department="Maths" and (u)-[:has_course]->(c)-[:reviewd_by]->(p) return c.name;
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+5)Create an abstract class Order (id, description). Derive two classes
+PurchaseOrder and SalesOrder with details of Supplier and Customer.
+Create object of each PurchaseOrder And SalesOrder. Display the
+details of all supplier and customers. 
+
+
+abstract class Order(val id:Int, val description:String)
+
+class PurchaseOrder(id:Int,description:String, val supplier:String) extends Order(id,description)
+
+class SalesOrder(id:Int,description:String, val Customer:String) extends Order(id,description)
+
+object Main{
+    def main(args:Array[String]){
+        val po = new PurchaseOrder(1,"Order for office supplies","Acme office Supplies")
+        val so = new SalesOrder(2,"Order for 10 Laptops", "HvDesai Clg")
+
+        println(s"Purchase Order id: ${po.id}, Purchase Description: ${po.description}, supplies: ${po.supplier}")
+        println(s"Sales order id: ${so.id}, Description = ${so.description}, Customer = ${so.Customer}")
+    }
+}
+
+2. Model the following Furniture Showroom information as a graphmodel, and answer the queries using Cypher.Consider a Furniture showroom with different types of furnitures likesofas sets, tea tables, cupboards, beds, dining tables, etc. Showroom isdivided into different sections, one section for each furniture type,Each section handled by a sales staff. A sales staff can handle one ormore sections. Customer may enquire about furniture. An enquirymay result in a purchase by the customercreate(f:Furniture{type:"sofa sets",moving:"fast_moving"})return f;create(f:Furniture{type:"tea tables",moving:"fast_moving"})return f;create(f:Furniture{type:"cupboards",moving:"slow_moving"})return f;create(f:Furniture{type:"beds",moving:"slow_moving"})return f;create(f:Furniture{type:"dining table",moving:"fast_moving"})return f;create(s:Sales_staff{name:"Mr. Satish"})return s;create(s:Sales_staff{name:"Mr. Rohit"})return s;create(s:Sales_staff{name:"Mr. Shubham"})return s;create(c:Customer{name:"Tanvi",orderdetail:"enquiry"})return c;create(c:Customer{name:"Renuka",orderdetail:"purchased"})return c;create(c:Customer{name:"Ashish",orderdetail:"enquiry"})return c;match(f:Furniture),(s:Sales_staff) where f.type="beds" and s.name="Mr. Satish" create (f)-[:has_salesman]->(s) return s,f;match(f:Furniture),(s:Sales_staff) where f.type="sofa sets" and s.name="Mr. Satish" create (f)-[:has_salesman]->(s) return s,f;match(f:Furniture),(s:Sales_staff) where f.type="dining table" and s.name="Mr. Rohit" create (f)-[:has_salesman]->(s) return s,f;match(f:Furniture),(s:Sales_staff) where f.type="cupboards" and s.name="Mr. Rohit" create (f)-[:has_salesman]->(s) return s,f;match(f:Furniture),(s:Sales_staff) where f.type="cupboards" and s.name="Mr. Rohit" create (f)-[:has_salesman]->(s) return s,f;match(f:Furniture),(s:Sales_staff) where f.type="tea tables" and s.name="Mr. Shubham" create (f)-[:has_salesman]->(s) return s,f;match(f:Furniture),(c:Customer) where f.type="tea tables" and c.name="Ashish" create (f)-[:summary]->(c) return c,f;match(f:Furniture),(c:Customer) where f.type="sofa sets" and c.name="Tanvi" create (f)-[:summary]->(c) return c,f;match(f:Furniture),(c:Customer) where f.type="beds" and c.name="Renuka" create (f)-[:summary]->(c) return c,f;1.match (f:Furniture) return *;2.match (f:Furniture),(s:Sales_staff) where s.name="Mr. Satish" and (f)-[:has_salesman]->(s) return f.type;3.match (c:Customer) where c.orderdetail="enquiry" return c.name ;4.match (f:Furniture) where f.moving="fast_moving" return *;
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+6)Design an abstract class Employee with computeSal() as an abstract
+function. Create two subclasses Worker and Manager. Salary of worker
+should be calculated on hourly basis of work and Salary of Manager
+should be calculated on monthly basis with additional incentives.
+Create five objects each of Worker and Manager class, and display their
+details.
+
+abstract class Employee{
+    def computeSal(): Double
+}
+class Worker(val hoursWorked: Double, val hourlyRate: Double) extends Employee{
+    def computeSal(): Double = {
+        hoursWorked * hourlyRate
+    }
+}
+
+class Manager(val monthlySalary: Double, val incentives: Double) extends Employee{
+    def computeSal(): Double = {
+        monthlySalary + incentives
+    }
+}
+
+object Main{
+    def main(args:Array[String]){
+        val worker1 = new Worker(160, 25)
+        val worker2 = new Worker(180, 30)
+        val worker3 = new Worker(200, 35)
+        val worker4 = new Worker(220, 40)
+        val worker5 = new Worker(240, 45)
+    
+        val manager1 = new Manager(10000, 1000)
+        val manager2 = new Manager(12000, 2000)
+        val manager3 = new Manager(15000, 3000)
+        val manager4 = new Manager(20000, 4000)
+        val manager5 = new Manager(25000, 5000)
+
+        println(s"Worker 1 salary: ${worker1.computeSal()}")
+        println(s"Worker 2 salary: ${worker2.computeSal()}")
+        println(s"Worker 3 salary: ${worker3.computeSal()}")
+        println(s"Worker 4 salary: ${worker4.computeSal()}")
+        println(s"Worker 5 salary: ${worker5.computeSal()}")
+    
+        println(s"Manager 1 salary: ${manager1.computeSal()}")
+        println(s"Manager 2 salary: ${manager2.computeSal()}")
+        println(s"Manager 3 salary: ${manager3.computeSal()}")
+        println(s"Manager 4 salary: ${manager4.computeSal()}")
+        println(s"Manager 5 salary: ${manager5.computeSal()}")
+    }
+}
+
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+7)Create abstract class Shape with abstract functions volume() and
+display(). Extend two classes Cube and Cylinder from it. Create
+objects of Cube and Cylinder, Calculate volume of each and display
+it.
+abstract class Shape{
+    def volume(): Double
+    def display(): Unit
+}
+class Cube(val sidelength:Double) extends Shape{
+    def volume(): Double = {
+        sidelength * sidelength * sidelength 
+    }
+    def display(): Unit = {
+        println(s"Cube with side length $sidelength")
+    }
+}
+class Cylinder(val radius: Double, val height: Double) extends Shape{
+    def volume(): Double = {
+        3.14 * radius * radius * height
+    }
+    def display(): Unit = {
+        println(s"Cylinder with radius $radius and height $height")
+    }
+}
+object Main{
+    def main(args:Array[String]){
+        val cube = new Cube(10)
+        val cylinder = new Cylinder(5, 10)
+
+        println(s"Volume of cube: ${cube.volume()}")
+        println(s"Volume of cylinder: ${cylinder.volume()}")
+
+        cube.display()
+        cylinder.display()
+    }
+}
+
+db.customer.insert({cname:"mukesh",modelname:"samsungj6",amount:20000})db.customer.insert({cname:"abhijeet",modelname:"samsungj6",amount:20060})db.customer.insert({cname:"manasi",modelname:"iphone7+",amount:30060})db.customer.insert({cname:"manisha",modelname:"iphone7+",amount:30070})db.customer.insert({cname:"dipak",modelname:"iphone7+",amount:30800})db.shopping.insert({brandname:"samsung",rate:6,model:[{mname:"s40",ram:"3GB",rom:"32 GB",rate:4},{mname:"j6",ram:"4GB",rom:"32GB",rate:7},{mname:"j7",ram:"6GB",rom:"64GB",rate:6}]})db.shopping.insert({brandname:"vivo",rate:8,model:[{mname:"Y55",ram:"3GB",rom:"32GB",rate:6},{mname:"Y69",ram:"4GB",rom:"32GB",rate:4},{mname:"V5",ram:"6GB",rom:"64GB",rate:6}]})db.shopping.insert({brandname:"Apple",rate:9,model:[{mname:"Iphone X",ram:"3GB",rom:"32GB",rate:8},{mname:"Iphone 11",ram:"4GB",rom:"32GB",rate:8},{mname:"Iphone 12",ram:"6GB",rom:"64GB",rate:8}]})a) db.shopping.find({"model.ram":"3GB","model.rom":"32GB"})b) db.customer.find({modelname:"samsungj6"})c) db.shopping.aggregate([{"$sort":{"rate":-1}},{"$limit":1},{$group:{_id:"$brandname"}}])d) db.customer.aggregate({$match:{modelname:"iphone7+"}},{$project:{_id:"$cname"}},{$sort:{"_id":1}}
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+8)  Define a class SavingAccount (accNo, name, balance, minBalance).
+Define appropriate constructors and operations withdraw(), deposit(),
+viewBalance(). Create an array of SavingAccount objects and
+perform operations and display them.
+
+class SavingAccount(val accNo:Int, val name:String, var balance:Double, val minBalance:Double){
+    def withdraw(amount:Double): Unit = {
+        if(balance - amount >= minBalance){
+            balance -= amount
+            println(s"Withdrew $amount from account $accNo. New balance: $balance")
+        }
+        else{
+            println(s"Insufficient balance in account $accNo")
+        }
+    }
+
+    def deposit(amount:Double): Unit = {
+        balance += amount
+        println(s"Deposited $amount to account $accNo. New balance: $balance")
+    }
+
+    def viewBalance(): Unit = {
+        println(s"Account $accNo balance: $balance")
+    }
+}
+
+object Main{
+    def main(args:Array[String]){
+        val accounts = Array(    
+            new SavingAccount(1, "Amit", 1000, 100),
+            new SavingAccount(2, "Ajay", 2000, 200),
+            new SavingAccount(3, "Tejas", 3000, 300)
+        )
+
+        accounts(0).withdraw(200)
+        accounts(0).deposit(100)
+        accounts(0).viewBalance()
+    
+        accounts(1).withdraw(500)
+        accounts(1).deposit(300)
+        accounts(1).viewBalance()
+    
+        accounts(2).withdraw(1000)
+        accounts(2).deposit(500)
+        accounts(2).viewBalance()
+    }
+}
+olymnicyeargamesparticipated_country:games:winner:medaldb.olympic.insert({year:2008,games:[{gid:1,gname:"badmintion"},{gid:2,gname:"swimming"}],participated_country:"india",participated_games:[{gid:1,gname:"badmintion"},{gid:2,gname:"swimming"},{gid:3,gname:"shooting"}],winner:[{medal:"none"}]})----------------------------------------------------------------db.olympic.find({year:2015},{participated_country:1}).sort({participated_country:1}){ "_id" : ObjectId("63b5d6b99611cf26be823e0e"), "participated_country" : "china" }------------------------------------db.olympic.find({year:2015,"participated_games.gid":{$gt:2}},{participated_country:1}).pretty()------------------------------------------------------------------db.olympic.find({"winner.name":"badmintion"},{participated_country:1,winner:1}).pretty()
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+9) Create lists using five different methods and display each of
+them.(List style, java style, fill, range, tabulate methods)
+
+object Main{
+    def main(args:Array[String]){
+        
+        // List style
+        val mylist:List[Int] = List(1,3,4)
+        println(mylist)
+
+        // java style
+        val javastyle_list = List(10,20,40,20,70)
+        println(javastyle_list)
+
+        // using fill method
+        val fill_style = List.fill(5)(1)
+        println(fill_style)
+
+        // using range method
+        val range_style = List.range(1,50)
+        println(range_style)
+
+        // using tabulate method
+        val tabulate_style = List.tabulate(10)(n => n + 1)
+        println(tabulate_style)
+        
+        
+    }
+}
+
+2.create (h:Hospital {name:"Jehangir"}) return h;create (h:Hospital {name:"Rubi"}) return h;create (h:Hospital {name:"Sahyadri"}) return h;create(s:Specialization{name:"Pediatric"}) return s;create(s:Specialization{name:"Orthopedic"}) return s;create(s:Specialization{name:"Gynaec"}) return s;create (p:Person {name:"Vishal",rating:"5"}) return p;create (p:Person {name:"Rohit",rating:"4"}) return p;create (p:Person {name:"Shubhem",rating:"2"}) return p;create (d:Doctor {name:"Aarohi",visit:"Monday"}) return d;create (d:Doctor {name:"Renuka",visit:"Sundsy"}) return d;create (d:Doctor {name:"Sneha",visit:"Tuesday"}) return d;match(h:Hospital),(s:Specialization) where h.name="Jehangir" and s.name="Gynaec" create (h)-[:Specialized_in]->(s) return h,s;match(h:Hospital),(s:Specialization) where h.name="Jehangir" and s.name="Pediatric" create (h)-[:Specialized_in]->(s) return h,s;match(h:Hospital),(s:Specialization) where h.name="Rubi" and s.name="Orthopedic" create (h)-[:Specialized_in]->(s) return h,s;match(h:Hospital),(s:Specialization) where h.name="Sahyadri" and s.name="Gynaec" create (h)-[:Specialized_in]->(s) return h,s;match(h:Hospital),(p:Person) where h.name="Sahyadri" and p.name="Vishal" create (p)-[:Review]->(h) return h,p;match(h:Hospital),(p:Person) where h.name="Jehangir" and p.name="Rohit" create (p)-[:Review]->(h) return h,p;match(h:Hospital),(p:Person) where h.name="Rubi" and p.name="Shubhem" create (p)-[:Review]->(h) return h,p;match(h:Hospital),(d:Doctor) where h.name="Jehangir" and d.name="Aarohi" create (h)-[:Has_Doctor]->(d) return h,d;match(h:Hospital),(d:Doctor) where h.name="Sahyadri" and d.name="Renuka" create (h)-[:Has_Doctor]->(d) return h,d;match(h:Hospital),(d:Doctor) where h.name="Rubi" and d.name="Sneha" create (h)-[:Has_Doctor]->(d) return h,d;1.match (h:Hospital),(s:Specialization) where s.name="Pediatric" and (h)-[:Specialized_in]->(s) return h.name;2.match (h:Hospital),(d:Doctor) where h.name="Jehangir" and (h)-[:Has_Doctor]->(d) return d.name;3.match (h:Hospital),(s:Specialization) where s.name="Gynaec" and (h)-[:Specialized_in]->(s) return h.name;4.match (h:Hospital),(p:Person) where h.name="Jehangir" and p.rating>="3" and (p)-[:Review]->(h) return p.name;
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+10) Write a program for multiplication of two matrices. Find determinant
+of resultant matrix.
+
+object Main{
+    def main(args:Array[String]){
+        
+        print("Enter the number of rows for first matrix: ")
+        val row = scala.io.StdIn.readInt()
+        print("Enter the number of columns for second matrix: ")
+        val col = scala.io.StdIn.readInt()
+
+        var matrix1 = Array.ofDim[Int](row,col)
+        
+        for(i<-0 until row){
+            for(j<-0 until col){
+                print("Enter the element: ")
+                var element = scala.io.StdIn.readInt()
+                matrix1(i)(j) = element
+            }
+        }
+        print("Enter the number of rows for second matrix: ")
+        val row2 = scala.io.StdIn.readInt()
+        print("Enter the number of columns for second matrix: ")
+        val col2 = scala.io.StdIn.readInt()
+
+        var matrix2 = Array.ofDim[Int](row2,col2)
+        for(i<-0 until row2){
+            for(j<-0 until col2){
+                print("Enter the element: ")
+                var element = scala.io.StdIn.readInt()
+                matrix2(i)(j) = element
+            }
+        }
+        
+        println("Matrix 1 ")
+        for(i<-0 until row){
+            for(j<-0 until col){
+                print(matrix1(i)(j))
+                print(" ")
+            }
+            println()
+        }
+        println("Matrix 2 ")
+        for(i<-0 until row2){
+            for(j<-0 until col2){
+                print(matrix2(i)(j))
+                print(" ")
+            }
+            println()
+        }
+        
+        var c = Array.ofDim[Int](row, col2)
+        for(i<- 0 until row){
+            for(j<-0 until col2){
+                for(k<-0 until col){
+                    c(i)(j) = c(i)(j) + matrix1(i)(k) * matrix2(k)(j)
+                }
+            }
+        }
+        println("Matrix multiplication ")
+        for(i<-0 until row){
+            for(j<-0 until col2){
+                print(c(i)(j))
+                print(" ")
+            }
+            println()
+        }
+    }
+}
+
+create(p:Person {Name:"Rohit"}) return p;create(p:Person {Name:"Shubham"}) return p;create(p:Person {Name:"Rushi"}) return p;create(p:Person {Name:"Manoj"}) return p;create(c:Children {Name:"AAA"}) return c;create(c:Children {Name:"BBB"}) return c;create(c:Children {Name:"CCC"}) return c;create(g:GrandParents {Name:"ZZZ",Relation:"GrandFather"}) return g;create(g:GrandParents {Name:"NNN",Relation:"GrandMother"}) return g;create(g:GrandParents {Name:"YYY",Relation:"GrandMother"}) return g;create(w:Works {Name:"Finnance"}) return w;create(w:Works {Name:"Sales"}) return w;match (p:Person),(w:Works) where p.Name ="Rohit" and w.Name="Finnance" create (p)-[:works_at]->(w) return p,w;match (p:Person),(w:Works) where p.Name ="Shubham" and w.Name="Sales" create (p)-[:works_at]->(w) return p,w;match (p:Person),(w:Works) where p.Name ="Manoj" and w.Name="Finnance" create (p)-[:works_at]->(w) return p,w;match (p:Person),(w:Works) where p.Name ="Rushi" and w.Name="Finnance" create (p)-[:works_at]->(w) return p,w;match (p:Person),(p1:Person) where p.Name ="Manoj" and p1.Name="Shubham" create (p)-[:friend_of]->(p1) return p,p1;match (p:Person),(p1:Person) where p.Name ="Manoj" and p1.Name="Rohit" create (p)-[:friend_of]->(p1) return p,p1;match (p:Person),(p1:Person) where p.Name ="Manoj" and p1.Name="Rushi" create (p)-[:friend_of]->(p1) return p,p1;match (p:Person),(p1:Person) where p.Name ="Shubham" and p1.Name="Rushi" create (p)-[:friend_of]->(p1) return p,p1;match (p:Person),(c:Children) where p.Name ="Shubham" and c.Name="AAA" create (c)-[:Child_of]->(p) return c,p;match (p:Person),(c:Children) where p.Name ="Rohit" and c.Name="BBB" create (c)-[:Child_of]->(p) return c,p;match (p:Person),(c:Children) where p.Name ="Manoj" and c.Name="CCC" create (c)-[:Child_of]->(p) return c,p;match (g:GrandParents),(c:Children) where g.Name ="ZZZ" and c.Name="AAA" create (g)-[:GrandParent_of]->(c) return g,c;match (g:GrandParents),(c:Children) where g.Name ="YYY" and c.Name="BBB" create (g)-[:GrandParent_of]->(c) return g,c;match (g:GrandParents),(c:Children) where g.Name ="NNN" and c.Name="CCC" create (g)-[:GrandParent_of]->(c) return g,c;1.match(c:Children),(p:Person) where (c)-[:Child_of]->(p) return p.Name;2.match(w:Works),(p:Person) where w.Name="Finnance" and (p)-[:works_at]->(w) return p.Name;3.match (p:Person)-[:friend_of]->(p1:Person) with p,count(p1) as Maxfriend return p.Name,max(Maxfriend)4.match(g:GrandParents),(c:Children) where g.Relation="GrandMother" and (g)-[:GrandParent_of]->(c) return g.Name;
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+11)  Write a program to calculate transpose of a matrix and check if the
+resultant matrix is lower triangular or not.
+
+object Main{
+    def main(args:Array[String]){
+        
+        print("Enter the number of rows: ")
+        val row = scala.io.StdIn.readInt()
+        print("Enter the number of columns: ")
+        val col = scala.io.StdIn.readInt()
+
+        var matrix1 = Array.ofDim[Int](row,col)
+        var rmat = Array.ofDim[Int](row,col)
+        for(i<-0 until row){
+            for(j<-0 until col){
+                print("Enter the element: ")
+                var element = scala.io.StdIn.readInt()
+                matrix1(i)(j) = element
+            }
+        }
+        println("Original Matrix")
+        for(i<-0 until row){
+            for(j<-0 until col){
+                print(matrix1(i)(j))
+                print(" ")
+            }
+            println()
+        }
+        for(i<-0 until row){
+            for(j<-0 until col){
+                rmat(i)(j) = matrix1(j)(i)
+            }
+        }
+        println("Transpose of matrix")
+        for(i<-0 until row){
+            for(j<-0 until col){
+                print(rmat(i)(j))
+                print(" ")
+            }
+            println()
+        }
+
+        var isLower:Boolean = true
+        for(i<-0 until row){
+            for(j<-0 until col){
+                if(rmat(i)(j) != 0){
+                    isLower = false
+                }
+            }
+        }
+        if(isLower==true){
+            println("Is Lower Triangular")
+        }
+        else{
+            println("Is not Lower Triangular")
+        }
+        
+    }
+}
+
+create (v:Vehicle{type:"Heavy Vehicle",characteristics:"800kg load"}) return v;create (v:Vehicle{type:"Light Vehicle",characteristics:"500kg load"}) return v;create (c:Customer{name:"Rohit",rating:"4"}) return c;create (c:Customer{name:"Manoj",rating:"5"}) return c;create (c:Customer{name:"Om", rating:"3"}) return c;create (c:Customer{name:"Shubham",rating:"2"}) return c;match(v:Vehicle),(c:Customer) where v.type="Heavy Vehicle" and c.name="Rohit" create (c)-[:buyed]->(v) return v,c;match(v:Vehicle),(c:Customer) where v.type="Heavy Vehicle" and c.name="Manoj" create (c)-[:buyed]->(v) return v,c;match(v:Vehicle),(c:Customer) where v.type="Light Vehicle" and c.name="Om" create (c)-[:buyed]->(v) return v,c;match(v:Vehicle),(c:Customer) where v.type="Heavy Vehicle" and c.name="Om" create (c)-[:buyed]->(v) return v,c;match(v:Vehicle),(c:Customer) where v.type="Light Vehicle" and c.name="Shubham" create (c)-[:buyed]->(v) return v,c;1.match(v:Vehicle) where v.type="Heavy Vehicle" return v.characteristics;2.match(v:Vehicle),(c:Customer) where v.type="Light Vehicle" and (c)-[:buyed]->(v) return c.name;3.4.match(v:Vehicle),(c:Customer) where c.rating>="4" and (c)-[:buyed]->(v) return v.type;
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+12) Write a program to create a list of 1 to 100 numbers. Create second list
+from first list selecting numbers which are perfect square. Display it.
+
+import scala.math.sqrt
+
+object Main{
+    def main(args:Array[String]){
+        val numbers = (1 to 101).toList
+
+        val perfectSquares = numbers.filter(n => {
+        val root = sqrt(n)
+        root == root.toInt})
+        println(perfectSquares)
+    }
+}
+
+output:
+List(1, 4, 9, 16, 25, 36, 49, 64, 81, 100)
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+13) Create array of strings and read a new string from user. Display all the
+srings from the array that contain the new string.
+
+object Main{
+    def main(args:Array[String]){
+        var string_arr = Array[String]("Amit","Ajay","Rahul")
+        print("Enter the new string: ")
+        var new_string = scala.io.StdIn.readLine()
+
+        for(i<-string_arr){
+            if(i.contains(new_string)){
+                println(i)
+            }
+        }
+    }
+}
+
+db.tourism .insert({name:"veenaword",rate:9,package:[{pname:"shillong",cost:10000},{pname:"gujart",cost:7000},{pname:"karnataka",cost:6000}]})db.tourism.insert({name:"rohit",rate:7,package:[{pname:"shillong",cost:10000},{pname:"rujan",cost:7000}]})db.tour.insert({sourc:"john",destination:"shillong",toerisumName:"veenaword",tourisumrate:8000,expense:20000,year:2018,customer:[{cname:"mukesh",city:"pune"},{cname:"abhijeetsangita",city:"baramati"},{cname:"manisha",city:"mumbai"},{cname:"manasi",city:"latur"}]})db.tour.insert({sourc:"john",destination:"karnataka",toerisumName:"veenaword",tourisumrate:80090,expense:20900,year:2017,customer:[{cname:"mukesh",city:"pune"},{cname:"abhijeetsangita",city:"baramati"},{cname:"manisha",city:"15no"},{cname:"manasi",city:"latur"}]})db.tour.insert({sourc:"john",destination:"rajasthan",toerisumName:"rohit",tourisumrate:6000,expense:30400,year:2019,customer:[{cname:"mukesh",city:"pune"},{cname:"abhijeetsangita",city:"baramati"},{cname:"manisha",city:"15no"},{cname:"manasi",city:"latur"}]})db.tour.insert({sourc:"john",destination:"taj",toerisumName:"rohit",tourisumrate:60090,expense:10400,year:2016,customer:[{cname:"mukesh",city:"pune"},{cname:"abhijeetsangita",city:"baramati"},{cname:"manisha",city:"15no"},{cname:"manasi",city:"latur"}]})db.tourism.find({name:"Kesari Travels"}).pretty();db.tourism.find().sort({"rate":-1}).limit(1).pretty();db.tour.aggregate({$match:{"source":"john"}},{"$sort":{"source":1}},{"$limit":3},{"$group":{"_id":"john","count":{"$sum":"$expense"}}})db.tour.find({"destination":"shillong"}).pretty();
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+14) Create a list of 10 random numbers. Create another list from members
+of first list using function 3n2+4n+6. Display second list in ascending
+order.
+
+import scala.util.Random
+object Main{
+    def main(args:Array[String]){
+        val random = new Random()
+        val list = (1 to 10).map(_=> random.nextInt()).toList
+        val secondList = list.map(n=> 3*n*n + 4*n + 6)
+        val sortedList = secondList.sorted
+        println(sortedList)
+    }
+}
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________________________________
+
+15)  Write a program to merge two sets of integers and calculate sum of all
+integers in the merged set. Also display largest and smallest element
+from merged set.
+
+object Main{
+    def main(args:Array[String]){
+        var set1 = Set(1,3,4,5)
+        var set2 = Set(10,20,40,50)
+        var mergeset = set1 ++ set2
+        val set_sum = mergeset.sum
+        println(s"Sum of the merged Set: $set_sum")
+        println(s"Largest element from merged set: ${mergeset.max}")
+        println(s"Smallest element from merged set: ${mergeset.min}")
+    }
+}
+
+create (h:Hotel {name:"Marriotte", location:"Camp"}) return h;create (h:Hotel {name:"Blue Diamond", location:"KP Road"}) return h;create (h:Hotel {name:"Radison", location:"Kharadi"}) return h;create (f:Facility {name:"Lodging",rating:"4 star"}) return f;create (f:Facility {name:"Restaurant ",rating:"4 star"}) return f;create (f:Facility {name:"Lodging Restaurant ",rating:"5 star"}) return f;match (h:Hotel),(f:Facility) where h.name="Blue Diamond" and f.name="Lodging Restaurant " create (h)-[:Has]->(f) return h,f;match (h:Hotel),(f:Facility) where h.name="Radison" and f.name="Restaurant " create (h)-[:Has]->(f) return h,f;match (h:Hotel),(f:Facility) where h.name="Marriotte" and f.name="Lodging Restaurant " create (h)-[:Has]->(f) return h,f;1.match (h:Hotel) where h.location="Camp" return h.name;2.match (h:Hotel),(f:Facility) where f.name="Lodging Restaurant " and (h)-[:Has]->(f) return h.name;3.match (h:Hotel),(f:Facility) where f.rating>="4" and (h)-[:Has]->(f) return h.name;4.match (h:Hotel) where h.location="KP Road" return h.name;
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+16) Write a program to create two sets of strings and find common strings
+between them. Merge sets after removing common strings. Display
+resultant set.
+
+object Main{
+    def main(args:Array[String]){
+        var myset1 = Set[String]("Amit", "Ajay", "Rahul", "Sam", "Tejas")
+        var myset2 = Set[String]("Mihir", "Abhi", "Amit", "Sam", "Kabir")
+
+        val common_strings = myset1.intersect(myset2)
+        val merged_set = (myset1 diff common_strings) union (myset2 diff common_strings)
+
+        merged_set.foreach(println)
+        
+    }
+}
+
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+17) Write user defined functions to reverse the case of a given string and call
+the function using MAP.
+
+object Main{
+    def reverscase(s:String): String={
+        s.map(c=> if(c.isUpper) c.toLower else c.toUpper)
+    }
+    
+    def main(args:Array[String]){
+        val strings = List[String]("amit", "Ajay", "Mihir", "Tejas")
+        val reversed_strings = strings.map(reverscase)
+        reversed_strings.foreach(println)        
+    }
+}
+
+db.product.insert({name:"robot",price:12000})		 db.product.insert({name:"toycar",price:2000})		 db.product.insert({name:"cricketset",price:9000})		 db.product.insert({name:"studymaterial",price:19000})			 db.order.insert({orderno:3736,custName:"arun	kumar",product:{productName:"toycar",price:20000},order_	date:"12/2/2019",status:"processed",Totalbill:2039,invoice:{i	nvoiceNO:67564,bill:2039,date:"17/2/2019"}})		 db.order.insert({orderno:3737,custName:"arun	kumar",product:{productName:"robot",price:12000},order_d	ate:"11/3/2019",status:"processed",Totalbill:12800,invoice:{i	nvoiceNO:67574,bill:12039,date:"17/3/2019"}})		> db.order.insert({orderno:3738,custName:"arun	kumar",product:{productName:"cricketset",price:9000},order	_date:"15/5/2019",status:"in process",Totalbill:9050})		 db.order.insert({orderno:3739,custName:"mukesh	patil",product:{productName:"studentmaterial",price:19000}	,order_date:"15/8/2019",status:"in process",Totalbill:19080})	******************************************4)a)> db.product.find().pretty()b) > db.order.find({Totalbill:{$lt:10000}})c) > db.order.find({status:"in process"})d) >db.order.find({custName:"arunkumar",status:"processed"})
+_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+18)  Write a program to create a MAP with empno, empname and deptname.
+Print details of all employees working in the same department, as “Mr.
+Joshi” .
+
+object Main{
+    def main(args:Array[String]){
+        var employees = Map(
+            1->("Ajay", "Marketing"),
+            2->("Mihir","Engineering"),
+            3->("Rushi","Sales"),
+            4->("Tejas","Engineering"),
+            5->("Yash","Sales")
+        )
+        val department = "Engineering"
+        for((empno, (empname, deptname)) <- employees){
+            if(deptname == department){
+                println(s"Employee ${empno}: ${empname}, Department: ${deptname}")
+            }
+        }
+    }
+}
+
+create (s:Section {name:"Male"}) return s;create (s:Section {name:"Female"}) return s;create (s:Section {name:"Kids"}) return s;create (a:Apparel {name:"Kurta",stock:"10"}) return a;create (a:Apparel {name:"Saree",stock:"25"}) return a;create (a:Apparel {name:"T-Shirts",stock:"7"}) return a;create (a:Apparel {name:"trousers",colour:"black",stock:"20"}) return a;create (a:Apparel {name:"Frock",stock:"7"}) return a;create (a:Apparel {name:"Shirt",stock:"9"}) return a;create (s:Size {name:"S"}) return s;create (s:Size {name:"M"}) return s;create (s:Size {name:"L"}) return s;match(s:Section),(a:Apparel) where s.name="Female" and a.name="Kurta" create (s)-[:Has]->(a) return s,a;match(s:Section),(a:Apparel) where s.name="Female" and a.name="Saree" create (s)-[:Has]->(a) return s,a;match(s:Section),(a:Apparel) where s.name="Male" and a.name="shirt" create (s)-[:Has]->(a) return s,a;match(s:Section),(a:Apparel) where s.name="Male" and a.name="trousers" create (s)-[:Has]->(a) return s,a;match(s:Section),(a:Apparel) where s.name="Kids" and a.name="Frock" create (s)-[:Has]->(a) return s,a;create (ss:SalesStaff {name:"Smita"}) return ss;create (ss:SalesStaff {name:"Geeta"}) return ss;create (ss:SalesStaff {name:"Seeta"}) return ss;create (ss:SalesStaff {name:"Raman"}) return ss;match(ss:SalesStaff),(s:Section) where s.name="Kids" and ss.name="Smita" create (ss)-[:Work_in]->(s) return ss,s;match(ss:SalesStaff),(s:Section) where s.name="Female" and ss.name="Geeta" create (ss)-[:Work_in]->(s) return ss,s;match(ss:SalesStaff),(s:Section) where s.name="Male" and ss.name="Seeta" create (ss)-[:Work_in]->(s) return ss,s;match(ss:SalesStaff),(s:Section) where s.name="Kids" and ss.name="Raman" create (ss)-[:Work_in]->(s) return ss,s;1.match(s:Section),(a:Apparel) where s.name="Female" and (s)-[:Has]->(a) return a.name;2.match(ss:SalesStaff),(s:Section) where s.name="Kids" and (ss)-[:Work_in]->(s) return ss.name;3.match (a:Apparel) where a.name="trousers" and a.colour="black" return a.name, a.colour,a.stock;4.
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+19)  Create a MAP for storing the following information about 5 students,
+where each Student is described with Rollno, Name and marks in
+two subjects. Display Student information with highest percentage.
+
+object Main{
+    def main(args:Array[String]){
+        var student_info = Map(
+            1->("Amit", 90, 92),
+            2->("Mihir", 79, 87),
+            3->("Tejas", 90,87),
+            4->("Sam", 76,78),
+            5->("Rahul", 100,97)
+        )
+        var max:Int = 0
+        var max_percentage_key:Int = 0
+        var percentage:Int = 0
+        for((rollno, (name, sub1, sub2)) <- student_info){
+            percentage = (sub1 + sub2) / 2
+            if(percentage > max){
+                max = percentage
+                max_percentage_key = rollno 
+            }
+        }
+        println(student_info(max_percentage_key))
+                
+    }
+}
+
+2.db.hospital.insert({hname:"Jahangir Hospital",haddr:"Pune Station",speciality:["pediatric","gynac","dental","orthopedic"]});db.hospital.insert({hname:"Deenanath Hospital",haddr:"Erandwane",speciality:["pediatric","gynac","orthopedic"]});db.hospital.insert({hname:"Sancheti Hospital",haddr:"Shivajinagar",speciality:["pediatric","orthopedic"]});db.hospital.insert({hname:"Sasoon Hospital",haddr:"Yerawada",speciality:["pediatric","orthopedic","dental"]});db.doctor.insert({dname:"dr.rahul",age:30,hospital:"Jahangir Hospital",day:"monday",speciality:"gynac"});db.doctor.insert({dname:"dr.sawant",age:32,hospital:"Jahangir Hospital",day:"monday",speciality:"orthopedic"}); db.person.insert({pname:"rama",age:22,hnmae:"Jahangir Hospital",speciality:"pediatric",rating:8}) db.person.insert({pname:"rema",age:22,hname:"Jahangir Hospital",speciality:"dental",rating:5}) db.person.insert({pname:"seema",age:22,hname:"Jahangir Hospital",speciality:"gynac", rating:2}) db.person.insert({pname:"meena",age:22,hname:"Jahangir Hospital",speciality:"orthopedic",rating:4}) db.person.insert({pname:"mane",age:22,hname:"Jahangir Hospital",speciality:"gynac",rating:5}) db.person.insert({pname:"reshma",age:22,hname:"Jahangir Hospital",speciality:"gynac",rating:6})queries-->a)db.hospital.find({speciality:"pediatric"});	b)db.doctor.find({$and:[{hospital:"Jahangir Hospital"},{day:"monday"}]})c)db.person.aggregate({$match:{speciality:"gynac"}},{$sort:{"_id":1}},{$project:{_id:"$recom"}})d)db.person.aggregate({$match:{rating:{$gte:3}}},{$project:{_id:"$pname"}}) 
+________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+20) write a program to sort a matrix using insertion sort and check if the resultant matrix is upper triangular or not.object UpperTrang {	def main(args: Array[String]): Unit = 	{    var A=Array.ofDim[Int](100,100)    println("Enter no. of rows :: ")    var m= scala.io.StdIn.readInt()        println("\nEnter no. of cols :: ")    var n = scala.io.StdIn.readInt()        printf("\nEnter values to the matrix :: \n")        for (i <- 0 to m-1)        {            for (j <- 0 to n-1)            {              A(i)(j)=scala.io.StdIn.readInt()              println(A(i)(j)+" ");                             }        }     println("\nThe given matrix is ::");         for (i <- 0 to m-1)        {            for (j <- 0 to n-1)            {                print(A(i)(j)+"\t");            }            print("\n\n");        }   var isUpper = 1;    for(row<-0 to m-1)    {        for(col<-0 to n-1)        {            if(col<row && A(row)(col)!=0)            {                isUpper = 0;            }        }    }    if(isUpper==1)    {        println("\nThis is a Upper triangular matrix")        for(row<-0 to m-1)        {            for(col<-0 to n-1)            {                if(A(row)(col)!= 0)                {                    print(A(row)(col)+"\t");                }                else                {                    print("\t");                }             }        print("\n\n");        }    }    else    {        print("\nThis is Not a Upper triangular matrix.");    }   }}showroomfurniture:sofasofasection.ratingrating:staffnameagedepartmentsalary---------------------------------------------------------------------------------------------------------------------db.showroom.insert({furniture:"cupboard",section:[{name1:"singlecupboard",price:200,rating:1},{name2:"woodencupboard",price:1000,rating:1}],staff:[{id:1,name:"aniket",salary:2000},{id:2,name:"pranav",salary:1000}],rating:2})db.showroom.insert({furniture:"table",section:[{name1:"glasstable",price:200,rating:5},{name2:"singletable",price:1000,rating:3}],staff:[{id:1,name:"kartik",salary:2000},{id:2,name:"pritam",salary:1000}],rating:8})     ---------------------------------------------------------------------------------------------------------------------db.showroom.find({furniture:"sofa"},{section:1}).pretty()-------------------------------------------------------------------------------------------db.showroom.find({},{staff:1}).pretty()db.showroom.find({"section.rating":{$gt:4}},{section:1}).pretty()-------------------------------------------------------------------------------------------------------------------------db.showroomcustomer.insert({purchased:"furniture",cid:1,name:"tejas",buyed:[{bid:1,bname:"table",cost:100},{bid:2,bname:"chair",cost:2000},{bid:3,name:"bed",cost:300}],rating:4,review:"excellent"})--------------------------------------------------------------------------------------------------------------------db.showroomcustomer.find({purchased:"furniture","buyed.bid":{$gt:2}},{name:1})
