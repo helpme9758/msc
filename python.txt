@@ -1,0 +1,831 @@
+1. Write a program that accept a number from user and check it is prime or not.
+
+
+
+number = int(input("Enter the number: "))
+
+
+
+flag = False
+
+if number > 1:
+
+    for i in range(2,number):
+
+        if number % i == 0:
+
+            flag = True
+
+            break
+
+    
+
+if flag:
+
+    print(f"{number} is not a prime number")
+
+else:
+
+    print(f"{number} is a prime number")
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+2.  Write a program for BFS.
+
+graph = {
+
+    'A':['B','C'],
+
+    'B':['D','E'],
+
+    'C':['F','G'],
+
+    'D':[],
+
+    'E':[],
+
+    'F':['H','I'],
+
+    'G':[],
+
+    'H':[],
+
+    'I':[]
+
+}
+
+visited = []
+
+que = []
+
+def bfs(graph, visited, node):
+
+    visited.append(node)
+
+    que.append(node)
+
+    while que:
+
+        m = que.pop(0)
+
+        print(m, end=' ')
+
+        for neigh in graph[m]:
+
+            if neigh not in visited:
+
+                visited.append(neigh)
+
+                que.append(neigh)
+
+print("BFS transvers: ")
+
+bfs(graph,visited,'A')
+
+
+
+____________________________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________
+
+3. Write a program that accept a number from user and check it is palindrome or not.
+
+
+n=int(input("Enter number:"))
+temp=n
+rev=0
+while(n>0):
+    dig=n%10
+    rev=rev*10+dig
+    n=n//10
+if(temp==rev):
+    print("The number is a palindrome!")
+else:
+    print("The number isn't a palindrome!")
+
+
+
+____________________________________________________________________________________________________________________________________
+
+4. Write a program for DFS.
+
+
+graph = {
+
+    'A':['B','C'],
+
+    'B':['D','E'],
+
+    'C':['F','G'],
+
+    'D':[],
+
+    'E':[],
+
+    'F':['H','I'],
+
+    'G':[],
+
+    'H':[],
+
+    'I':[]
+
+}
+
+
+visited = set()
+
+def dfs(graph,visited,node):
+
+    if node not in visited:
+
+        print(node, end=' ')
+
+        visited.add(node)
+
+        for neigh in graph[node]:
+
+            dfs(graph,visited,neigh)
+
+    
+
+
+
+print("DFS transvers: ")
+
+dfs(graph,visited,'A')
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+5. Write a program that accept a number from user and calculate factorial of it.
+
+
+
+def calculate_factorial(number:int):
+
+    factorial = 1
+
+    if (number == 0) or (number == 1):
+
+        return 1
+
+    else:
+
+        for i in range(1, number + 1):
+
+            factorial *= i
+
+        return factorial
+
+
+
+number = int(input("Enter the number: "))
+
+
+
+print(f"Factorial of {number} is {calculate_factorial(number)}")
+
+
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+
+7. Write a program to demonstrate use of set functions.
+
+
+
+# Create a Set:
+
+thisset = {"apple", "banana", "cherry"}
+
+print(thisset)
+
+
+# Find length of the set using len() function
+
+print(len(thisset))
+
+
+
+# Add an item to a set, using the add() method:
+
+thisset = {"apple", "banana", "cherry"}
+
+
+thisset.add("orange")
+
+print(thisset)
+
+
+
+# Add elements from tropical into thisset:
+
+thisset = {"apple", "banana", "cherry"}
+
+tropical = {"pineapple", "mango", "papaya"}
+
+
+thisset.update(tropical)
+
+print(thisset)
+
+
+# Remove "banana" by using the remove() method:
+
+
+thisset = {"apple", "banana", "cherry"}
+thisset.remove("banana")
+
+print(thisset)
+
+# Set intersection() Method
+
+x = {"apple", "banana", "cherry"}
+
+y = {"google", "microsoft", "apple"}
+
+z = x.intersection(y)
+
+print(z)
+
+
+# Set union() Method
+
+x = {"apple", "banana", "cherry"}
+y = {"google", "microsoft", "apple"}
+
+z = x.union(y)
+
+print(z)
+
+# Set issubset() Method
+
+x = {"a", "b", "c"}
+y = {"f", "e", "d", "c", "b", "a"}
+
+z = x.issubset(y)
+
+print(z)
+
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+8. Write a program to demonstrate list operation
+
+
+
+# To create list
+
+list1 = [1,2,3,4]
+print("List: ", list1)
+
+# Convert into list 
+
+name = "HvDesai"
+
+list2 = list(name)
+
+print(f"{name} converted into list : {list2}")
+
+
+# get length of the list using len() function
+
+list3 = [1,3,4,5,6,7,8]
+print(f"Length of the list: {len(list3)}")
+
+
+
+# check the type of the list using type() function
+print(f"Type of the list: {type(list3)}")
+
+# A list with strings, integers and boolean values:
+list4 = [1,3, 'name', True]
+
+list1 = ["Amit", "Tejas", "Sahil", "Yash"]
+
+# Access Items
+
+print(list1[2]) # O/p = Sahil
+
+# Adding element in list using append()
+
+list1.append("Avi")
+print(list1)
+
+# Removing last element from the list
+
+list1.pop()
+
+print(list1)
+
+# To insert a list item at a specified index, use the insert() method.
+
+list1.insert(2, "Sam")
+print(list1)
+
+# The remove() method removes the specified item.
+
+list1.remove("Sam")
+print(list1)
+
+# Sort the list
+list1 = [4,1,2,9,3]
+
+list1.sort()
+
+print(list1)
+
+
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+9. write a python program that accept number from user and check it is armstrong or not
+
+
+n = int(input("Enter a number: "))
+
+#initialize the sum
+
+s = 0
+
+t = n
+
+while t > 0:
+
+   digit = t % 10
+
+   s += digit ** 3
+
+   t //= 10
+
+
+
+# display the result
+
+if n == s:
+
+   print(n,"is an Armstrong number")
+
+else:
+
+   print(n,"is not an Armstrong number")
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+10. Write a program that accept two numbers and find GCD of it.
+
+
+def gcd(a, b):
+
+    if (a == 0):
+
+        return b
+
+    if (b == 0):
+
+        return a
+
+  
+    if (a == b):
+
+        return a
+
+  
+
+    if (a > b):
+
+        return gcd(a-b, b)
+
+    return gcd(a, b-a)
+
+  
+a = int(input("Enter the first number: "))
+
+b = int(input("Enter the second number: "))
+
+if(gcd(a, b)):
+
+    print('GCD of', a, 'and', b, 'is', gcd(a, b))
+
+else:
+
+    print('not found')
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+11.  Write a program that accept two numbers and find LCM of it.
+
+def findLeastCM(a, b):
+
+    if(a > b):
+
+        maximum = a
+
+    else:
+
+        maximum = b
+
+    while(True):
+
+        if(maximum % a == 0 and maximum % b == 0):
+
+            Val = maximum
+
+            break
+
+        maximum = maximum + 1
+
+    return Val
+
+num1 = int(input(" Please Enter the First : "))
+
+num2 = int(input(" Please Enter the Second : "))
+
+Val = findLeastCM(num1, num2)
+
+print(f"\n Least Common Multiple of {num1} and {num2} = {Val}")
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+12.  Write a program that accept a number from user and check it is perfect or not.
+
+
+number = int(input("Enter the number: "))
+
+sum = 0
+
+for i in range(1,number):
+
+    if number % i == 0:
+
+        sum += i
+
+
+
+if sum == number:
+
+    print(f"{number} is a perfect number")
+
+else:
+
+    print(f"{number} is not a perfect number")
+
+____________________________________________________________________________________________________________________________________
+
+13. Write a program to demonstrate use of string functions.
+
+
+name = "Tejas"
+print(name)
+
+# Multiline Strings
+sentence = """Hiii,
+
+    My name is Tejas
+
+"""
+
+print(sentence)
+
+
+# String capitalize() Method
+
+txt = "python is FUN!"
+
+x = txt.capitalize()
+
+print(x)
+
+
+# String count() Method
+
+txt = "I love apples, apple are my favorite fruit"
+
+x = txt.count("apple")
+
+print(x)
+
+
+# String isdigit() Method
+
+txt = "50800"
+
+x = txt.isdigit()
+
+print(x)
+
+
+# String istitle() Method
+
+txt = "Hello, And Welcome To My World!"
+
+x = txt.istitle()
+
+print(x)
+
+
+# String isupper() Method
+
+txt = "THIS IS NOW!"
+
+x = txt.isupper()
+
+print(x)
+
+# String lower() Method
+
+txt = "Hello my FRIENDS"
+
+x = txt.lower()
+
+print(x)
+
+
+
+# String split() Method
+
+txt = "welcome to the jungle"
+
+x = txt.split()
+
+print(x)
+
+
+
+# String strip() Method
+
+# Remove spaces from the string
+
+txt = "     banana     "
+
+x = txt.strip()
+
+print(x)
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+
+13.  Write a program to demonstrate use of Tuple functions.
+
+
+# Creating a tuple
+
+mytuple = ("apple", "banana", "cherry")
+
+print(mytuple)
+
+# Creating a tuple using tuple() 
+
+l = [1,2,3,4]
+
+mytuple = tuple(l)
+
+print(mytuple)
+
+# Print the number of items in the tuple
+
+thistuple = ("apple", "banana", "cherry")
+
+print(len(thistuple))
+
+
+# Print the type of the tuple
+
+mytuple = ("apple", "banana", "cherry")
+
+print(type(mytuple))
+
+
+# Access Tuple Items
+
+thistuple = ("apple", "banana", "cherry")
+
+print(thistuple[1])
+
+
+# Unpack Tuples
+
+fruits = ("apple", "banana", "cherry")
+
+(green, yellow, red) = fruits
+
+print(green)
+
+print(yellow)
+
+print(red)
+
+# Using Asterisk *
+
+fruits = ("apple", "banana", "cherry", "strawberry", "raspberry")
+
+(first, second, *other) = fruits
+
+print(first)
+
+print(second)
+
+print(other)
+
+# Tuple count() Method 
+
+# Returns the number of times a specified value occurs in a tuple
+
+thistuple = (1, 3, 7, 8, 7, 5, 4, 6, 8, 5)
+
+x = thistuple.count(5)
+
+
+print(x)
+
+# Tuple index() Method
+
+# Search for the first occurrence of the value , and return its position
+
+thistuple = (1, 3, 7, 8, 7, 5, 4, 6, 8, 5)
+
+x = thistuple.index(8)
+
+print(x)
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+14. Write a program for Fibonacci series.
+
+
+
+def fibonacci(n):
+
+    a = 0
+
+    b = 1
+
+
+
+    if n < 0:
+
+        print("Incorrect input")
+
+    elif n == 0:
+
+        return 0
+
+    elif n == 1:
+
+        return b
+
+    else:
+
+        for _ in range(1, n):
+
+            c = a + b
+
+            a = b
+
+            b = c
+
+        return b
+
+ 
+
+
+
+print(fibonacci(9))
+
+____________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+15. Write a program that perform addition of two matrices
+
+
+rows = int(input("Enter the number of rows: "))
+
+cols = int(input("Enter the number of cols: "))
+
+m1 = []
+
+for i in range(rows):
+
+    r = []
+
+    for j in range(cols):
+
+        element = int(input("Enter the element: "))
+
+        r.append(element)
+
+
+
+    m1.append(r) 
+
+
+
+rows_2 = int(input("Enter the number of rows for second matrix: "))
+
+cols_2 = int(input("Enter the number of cols for second matrix: "))
+
+m2 = []
+
+for i in range(rows_2):
+
+    r2 = []
+
+    for j in range(cols_2):
+
+        element = int(input("Enter the element: "))
+
+        r2.append(element)
+
+
+
+    m2.append(r2) 
+
+
+
+if rows == rows_2 and cols == cols_2:
+
+    m3 = []
+
+    for i in range(rows):
+
+        add_matrix = []
+
+        for j in range(cols):
+
+            a = m1[i][j] + m2[i][j]
+
+            add_matrix.append(a)
+
+        m3.append(add_matrix)
+
+
+
+    for i in range(rows):
+
+        for j in range(cols):
+
+            print(m3[i][j],end=" ")
+
+        print("\n")
+
+        
+
+else:
+
+    print("the addition is not a possible because the rows and cols of the 2 matrix is not same")
+
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
+
+16. Write a program that perform subtraction of two matrices
+
+rows = int(input('ENter number of rows: '))
+cols  = int(input('ENter number of column: '))
+
+print()
+
+print('Enter values for matrix A')
+matrix_A = [[int(input(f"column {j+1} -> ENter {i+1} element:")) for j in range(cols)] for i in range(rows) ]
+
+print() # for new line
+
+print('Enter values for matrix B ')
+matrix_B = [[int(input(f"column {j+1} -> ENter {i+1} element:")) for j in range(cols)] for i in range(rows) ]
+
+print() 
+
+print('Matrix-A :')
+for i in matrix_A:
+    print(i)
+
+print() #for new line
+
+print('Matrix-B :')
+for i in matrix_B:
+    print(i)
+
+
+result = [[0 for j in range(cols)] for i in range(rows)]
+
+
+for i in range(rows):
+    for j in range(cols):
+        result[i][j] = matrix_A[i][j] - matrix_B[i][j]
+
+print()
+
+print('Subtraction of Matrix-A and Matrix-B is :')
+for i in result:
+    print(i)
+
+___________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________
